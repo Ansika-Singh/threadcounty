@@ -205,10 +205,30 @@ function AuthPanel() {
         navigate({ to: "/dashboard" });
       }
     } else {
-      // Because we added an auto-confirm SQL trigger, signUp logs them in automatically!
+      // Because we added an auto-confirm SQL trigger, signUp creates a confirmed user on the backend.
+      // But signUp doesn't give us a session if confirmation is required in settings, 
+      // so we MUST sign in manually to get the token!
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: demoEmail,
+        password: demoPassword,
+      });
+
       setLoading(false);
-      toast.success("Welcome! Demo account initialized.");
-      navigate({ to: "/dashboard" });
+      
+      if (signInError) {
+        toast.error(`Login failed: ${signInError.message}. Retrying as guest...`);
+        // Fallback to anonymous signin one last time
+        const { error: finalAnonError } = await supabase.auth.signInAnonymously();
+        if (finalAnonError) {
+            toast.error("Complete auth failure. Please disable Email Confirmations in Supabase.");
+        } else {
+            toast.success("Welcome! Demo account initialized anonymously.");
+            navigate({ to: "/dashboard" });
+        }
+      } else {
+        toast.success("Welcome! Demo account initialized.");
+        navigate({ to: "/dashboard" });
+      }
     }
   }
 
