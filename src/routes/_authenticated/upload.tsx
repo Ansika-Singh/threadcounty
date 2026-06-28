@@ -195,19 +195,24 @@ function UploadPage() {
     setProgress(40);
     setStatusMessage("Uploading high-resolution swatch scan...");
 
-    setProgress(40);
-    setStatusMessage("Uploading high-resolution swatch scan...");
-
-    const formData = new FormData();
-    formData.append("file", uploadData, file.name);
-
     let uploadRow;
     try {
-      const uploadRes = await fetchApi("/uploads", {
-        method: "POST",
-        body: formData,
-      });
-      uploadRow = uploadRes.upload;
+      // 1. Upload file to storage
+      const { error: storageError } = await supabase.storage.from("fabric-images").upload(path, uploadData);
+      if (storageError) throw storageError;
+
+      // 2. Create the database record
+      uploadRow = {
+        id: crypto.randomUUID(),
+        user_id: user.id,
+        storage_path: path,
+        original_filename: file.name,
+        file_size: uploadData.size,
+        mime_type: uploadData.type,
+      };
+      
+      const { error: dbError } = await supabase.from("uploads").insert(uploadRow);
+      if (dbError) throw dbError;
     } catch (err: any) {
       setSubmitting(false);
       toast.error("Upload failed: " + err.message);
