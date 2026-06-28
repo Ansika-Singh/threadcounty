@@ -273,6 +273,22 @@ export const mockSupabase = {
       return { data: { user: mockUser, session: { user: mockUser, access_token: "mock-token" } }, error: null };
     },
 
+    signInWithOAuth: async (params: any) => {
+      // Mock OAuth login (simulate error since offline)
+      return { data: { provider: params?.provider, url: null }, error: new Error("OAuth is disabled in offline mode. Please use email or demo login.") };
+    },
+
+    signInAnonymously: async () => {
+      const mockUser = DEFAULT_USER;
+      
+      if (typeof window !== "undefined") {
+        localStorage.setItem("threadcounty_mock_user", JSON.stringify(mockUser));
+      }
+      notifyAuthListeners();
+
+      return { data: { user: mockUser, session: { user: mockUser, access_token: "mock-token" } }, error: null };
+    },
+
     signOut: async () => {
       if (typeof window !== "undefined") {
         localStorage.removeItem("threadcounty_mock_user");
@@ -327,7 +343,9 @@ export const mockSupabase = {
         callback("SIGNED_IN", { user, access_token: "mock-token" });
       };
       
-      window.addEventListener("auth-state-change", handleEvent);
+      if (typeof window !== "undefined") {
+        window.addEventListener("auth-state-change", handleEvent);
+      }
       
       // Fire callback immediately with current state to avoid missing initial trigger
       let initialUser = DEFAULT_USER;
@@ -347,7 +365,9 @@ export const mockSupabase = {
         data: {
           subscription: {
             unsubscribe: () => {
-              window.removeEventListener("auth-state-change", handleEvent);
+              if (typeof window !== "undefined") {
+                window.removeEventListener("auth-state-change", handleEvent);
+              }
             }
           }
         }
