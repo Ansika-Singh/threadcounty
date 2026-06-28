@@ -1,0 +1,18 @@
+{
+  "name": "ThreadCounty — AI Textile Analysis",
+  "short_name": "ThreadCounty",
+  "description": "Automated thread density, warp/weft counts and weave identification for textile professionals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBFBFA",
+  "theme_color": "#0F766E",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["business", "productivity", "utilities"]
+}

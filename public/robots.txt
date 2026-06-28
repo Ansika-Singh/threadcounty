@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Allow: /pricing
+Allow: /about
+Allow: /faq
+Allow: /contact
+Allow: /demo
+Allow: /privacy
+Allow: /terms
+
+# Block authenticated routes from crawlers
+Disallow: /dashboard
+Disallow: /upload
+Disallow: /history
+Disallow: /profile
+Disallow: /analysis
+Disallow: /compare
+Disallow: /admin
+Disallow: /auth
+
+Sitemap: https://textile-sight-ai.vercel.app/sitemap.xml

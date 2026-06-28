@@ -1,0 +1,357 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ThreadCounty — Laboratory technical instrument design system
+   Warm neutral cotton-toned surface, deep teal brand,
+   technical mono accents. Avoid generic SaaS purple. */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --shadow-instrument: 0 1px 0 0 oklch(0 0 0 / 0.04), 0 12px 32px -16px oklch(0.2 0.04 180 / 0.18);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  /* warm zinc / cotton tones */
+  --background: oklch(0.985 0.005 90);
+  --foreground: oklch(0.20 0.012 250);
+  --surface: oklch(0.97 0.007 90);
+  --surface-2: oklch(0.94 0.008 90);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.20 0.012 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.20 0.012 250);
+
+  /* deep teal brand */
+  --brand: oklch(0.50 0.10 195);
+  --brand-foreground: oklch(0.985 0.005 90);
+
+  --primary: oklch(0.20 0.012 250);
+  --primary-foreground: oklch(0.985 0.005 90);
+  --secondary: oklch(0.95 0.008 90);
+  --secondary-foreground: oklch(0.20 0.012 250);
+  --muted: oklch(0.95 0.008 90);
+  --muted-foreground: oklch(0.50 0.012 250);
+  --accent: oklch(0.94 0.015 195);
+  --accent-foreground: oklch(0.30 0.08 195);
+  --destructive: oklch(0.55 0.20 25);
+  --destructive-foreground: oklch(0.985 0.005 90);
+  --border: oklch(0.20 0.012 250 / 0.10);
+  --input: oklch(0.20 0.012 250 / 0.12);
+  --ring: oklch(0.50 0.10 195 / 0.5);
+
+  --chart-1: oklch(0.50 0.10 195);
+  --chart-2: oklch(0.62 0.13 60);
+  --chart-3: oklch(0.55 0.12 30);
+  --chart-4: oklch(0.45 0.05 250);
+  --chart-5: oklch(0.65 0.10 145);
+
+  --sidebar: oklch(0.97 0.007 90);
+  --sidebar-foreground: oklch(0.20 0.012 250);
+  --sidebar-primary: oklch(0.50 0.10 195);
+  --sidebar-primary-foreground: oklch(0.985 0.005 90);
+  --sidebar-accent: oklch(0.94 0.008 90);
+  --sidebar-accent-foreground: oklch(0.20 0.012 250);
+  --sidebar-border: oklch(0.20 0.012 250 / 0.08);
+  --sidebar-ring: oklch(0.50 0.10 195 / 0.5);
+}
+
+.dark {
+  --background: oklch(0.14 0.012 240);
+  --foreground: oklch(0.96 0.005 90);
+  --surface: oklch(0.18 0.012 240);
+  --surface-2: oklch(0.22 0.012 240);
+  --card: oklch(0.18 0.012 240);
+  --card-foreground: oklch(0.96 0.005 90);
+  --popover: oklch(0.18 0.012 240);
+  --popover-foreground: oklch(0.96 0.005 90);
+  --brand: oklch(0.70 0.12 195);
+  --brand-foreground: oklch(0.14 0.012 240);
+  --primary: oklch(0.96 0.005 90);
+  --primary-foreground: oklch(0.14 0.012 240);
+  --secondary: oklch(0.24 0.012 240);
+  --secondary-foreground: oklch(0.96 0.005 90);
+  --muted: oklch(0.24 0.012 240);
+  --muted-foreground: oklch(0.68 0.012 240);
+  --accent: oklch(0.28 0.04 195);
+  --accent-foreground: oklch(0.85 0.08 195);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.96 0.005 90);
+  --border: oklch(1 0 0 / 0.10);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(0.70 0.12 195 / 0.6);
+  --sidebar: oklch(0.16 0.012 240);
+  --sidebar-foreground: oklch(0.96 0.005 90);
+  --sidebar-primary: oklch(0.70 0.12 195);
+  --sidebar-primary-foreground: oklch(0.14 0.012 240);
+  --sidebar-accent: oklch(0.22 0.012 240);
+  --sidebar-accent-foreground: oklch(0.96 0.005 90);
+  --sidebar-border: oklch(1 0 0 / 0.08);
+  --sidebar-ring: oklch(0.70 0.12 195 / 0.6);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    font-family: var(--font-sans);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background-color: color-mix(in oklab, var(--brand) 25%, transparent);
+    color: var(--foreground);
+  }
+}
+
+@utility font-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "cv02";
+}
+
+@utility tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--surface-2);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted-foreground);
+}
+
+@utility grid-pattern {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--foreground) 18%, transparent) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 22px 22px;
+}
+
+@utility weave-pattern {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      color-mix(in oklab, var(--brand) 22%, transparent) 0,
+      color-mix(in oklab, var(--brand) 22%, transparent) 1px,
+      transparent 1px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--brand) 22%, transparent) 0,
+      color-mix(in oklab, var(--brand) 22%, transparent) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+}
+
+/* Custom premium animations for ThreadCounty Instrument */
+@keyframes scanLaser {
+  0%, 100% {
+    top: 5%;
+    opacity: 0.2;
+  }
+  15%, 85% {
+    opacity: 1;
+  }
+  50% {
+    top: 95%;
+    opacity: 1;
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseBorder {
+  0% {
+    box-shadow: 0 0 0 0 oklch(0.50 0.10 195 / 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 12px oklch(0.50 0.10 195 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 oklch(0.50 0.10 195 / 0);
+  }
+}
+
+@keyframes beamPulse {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.02);
+  }
+}
+
+@utility scan-laser {
+  animation: scanLaser 3.5s ease-in-out infinite;
+}
+
+@utility spin-slow {
+  animation: spinSlow 40s linear infinite;
+}
+
+@utility pulse-border {
+  animation: pulseBorder 2s infinite;
+}
+
+@utility beam-pulse {
+  animation: beamPulse 4s ease-in-out infinite;
+}
+
+/* Custom transitions and premium motion */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes gridShift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 44px 44px;
+  }
+}
+
+@utility animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility animate-fade-in-left {
+  animation: fadeInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility animate-fade-in-right {
+  animation: fadeInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility animate-scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@utility animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@utility animate-grid-shift {
+  animation: gridShift 25s linear infinite;
+}
+
+
