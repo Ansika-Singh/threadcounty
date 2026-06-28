@@ -229,7 +229,9 @@ export const mockSupabase = {
       });
       saveMockTable("subscriptions", subs);
 
-      localStorage.setItem("threadcounty_mock_user", JSON.stringify(mockUser));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("threadcounty_mock_user", JSON.stringify(mockUser));
+      }
       notifyAuthListeners();
 
       return { data: { user: mockUser, session: { user: mockUser, access_token: "mock-token" } }, error: null };
@@ -263,47 +265,25 @@ export const mockSupabase = {
         saveMockTable("profiles", profiles);
       }
 
-      localStorage.setItem("threadcounty_mock_user", JSON.stringify(mockUser));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("threadcounty_mock_user", JSON.stringify(mockUser));
+      }
       notifyAuthListeners();
 
       return { data: { user: mockUser, session: { user: mockUser, access_token: "mock-token" } }, error: null };
     },
 
     signOut: async () => {
-      localStorage.removeItem("threadcounty_mock_user");
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("threadcounty_mock_user");
+      }
       notifyAuthListeners();
       return { error: null };
     },
 
     getSession: async () => {
       let user = DEFAULT_USER;
-      const userJson = localStorage.getItem("threadcounty_mock_user");
-      if (userJson) {
-        try {
-          user = JSON.parse(userJson);
-        } catch (e) {}
-      } else {
-        localStorage.setItem("threadcounty_mock_user", JSON.stringify(DEFAULT_USER));
-      }
-      return { data: { session: { user, access_token: "mock-token" } }, error: null };
-    },
-
-    getUser: async () => {
-      let user = DEFAULT_USER;
-      const userJson = localStorage.getItem("threadcounty_mock_user");
-      if (userJson) {
-        try {
-          user = JSON.parse(userJson);
-        } catch (e) {}
-      } else {
-        localStorage.setItem("threadcounty_mock_user", JSON.stringify(DEFAULT_USER));
-      }
-      return { data: { user }, error: null };
-    },
-
-    onAuthStateChange: (callback: (event: string, session: any) => void) => {
-      const handleEvent = () => {
-        let user = DEFAULT_USER;
+      if (typeof window !== "undefined") {
         const userJson = localStorage.getItem("threadcounty_mock_user");
         if (userJson) {
           try {
@@ -312,22 +292,56 @@ export const mockSupabase = {
         } else {
           localStorage.setItem("threadcounty_mock_user", JSON.stringify(DEFAULT_USER));
         }
+      }
+      return { data: { session: { user, access_token: "mock-token" } }, error: null };
+    },
+
+    getUser: async () => {
+      let user = DEFAULT_USER;
+      if (typeof window !== "undefined") {
+        const userJson = localStorage.getItem("threadcounty_mock_user");
+        if (userJson) {
+          try {
+            user = JSON.parse(userJson);
+          } catch (e) {}
+        } else {
+          localStorage.setItem("threadcounty_mock_user", JSON.stringify(DEFAULT_USER));
+        }
+      }
+      return { data: { user }, error: null };
+    },
+
+    onAuthStateChange: (callback: (event: string, session: any) => void) => {
+      const handleEvent = () => {
+        let user = DEFAULT_USER;
+        if (typeof window !== "undefined") {
+          const userJson = localStorage.getItem("threadcounty_mock_user");
+          if (userJson) {
+            try {
+              user = JSON.parse(userJson);
+            } catch (e) {}
+          } else {
+            localStorage.setItem("threadcounty_mock_user", JSON.stringify(DEFAULT_USER));
+          }
+        }
         callback("SIGNED_IN", { user, access_token: "mock-token" });
       };
       
       window.addEventListener("auth-state-change", handleEvent);
       
       // Fire callback immediately with current state to avoid missing initial trigger
-      let user = DEFAULT_USER;
-      const userJson = localStorage.getItem("threadcounty_mock_user");
-      if (userJson) {
-        try {
-          user = JSON.parse(userJson);
-        } catch (e) {}
-      } else {
-        localStorage.setItem("threadcounty_mock_user", JSON.stringify(DEFAULT_USER));
+      let initialUser = DEFAULT_USER;
+      if (typeof window !== "undefined") {
+        const userJson = localStorage.getItem("threadcounty_mock_user");
+        if (userJson) {
+          try {
+            initialUser = JSON.parse(userJson);
+          } catch (e) {}
+        } else {
+          localStorage.setItem("threadcounty_mock_user", JSON.stringify(DEFAULT_USER));
+        }
       }
-      setTimeout(() => callback("SIGNED_IN", { user, access_token: "mock-token" }), 0);
+      setTimeout(() => callback("SIGNED_IN", { user: initialUser, access_token: "mock-token" }), 0);
       
       return {
         data: {
