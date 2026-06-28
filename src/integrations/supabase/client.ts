@@ -60,6 +60,7 @@ import { mockSupabase } from './mock-client';
 let _supabase: ReturnType<typeof createSupabaseClient> | undefined;
 
 function getRealClient() {
+  throw new Error("Supabase is permanently disabled by user request. Forcing local mock client.");
   if (!_supabase) {
     _supabase = createSupabaseClient();
   }
