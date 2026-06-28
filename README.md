@@ -3,7 +3,7 @@
 ThreadCounty is a next-generation textile technology platform built for textile manufacturers, students, researchers, and quality control professionals. By leveraging computer vision and automated analysis, ThreadCounty replaces slow and error-prone manual magnifying inspections with sub-second optical scans, providing warp/weft counts, weave pattern recognition, and laboratory-grade compliance reports.
 
 **Live Deployment URL:** [https://textile-sight-ai.vercel.app](https://textile-sight-ai.vercel.app)  
-**GitHub Repository:** [https://github.com/Ansika-Singh/textile-sight-ai](https://github.com/Ansika-Singh/textile-sight-ai)
+**GitHub Repository:** [https://github.com/Ansika-Singh/textile-sight-platform](https://github.com/Ansika-Singh/textile-sight-platform)
 
 ---
 
