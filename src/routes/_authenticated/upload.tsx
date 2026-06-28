@@ -112,64 +112,39 @@ function UploadPage() {
     setOcrText(null);
   }
 
-  // Real Gemini OCR scanner
+  // Local Tesseract OCR scanner (No API Keys needed)
   const scanLabel = async () => {
     if (!file) return;
     setScanningOcr(true);
-
-    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-    if (!apiKey) {
-      // Fallback to mock if no API key
-      await new Promise((r) => setTimeout(r, 1800));
-      const materials = ["100% Organic Cotton", "60% Cotton / 40% Linen Blend", "100% Fine Merino Wool", "80% Silk / 20% Polyester"];
-      const batches = ["BATCH: Loomworks-26A", "BATCH: Weaver-994", "BATCH: India-TC-08"];
-      const standards = ["Compliance: ISO 7211-2 Standard", "Compliance: ASTM D3775 QC Pass"];
-      const hash = file.name.length;
-      setOcrText(`--- SCAN LABEL OCR ---\nComposition: ${materials[hash % materials.length]}\n${batches[(hash >> 2) % batches.length]}\n${standards[(hash >> 3) % standards.length]}\nOrigin: Factory QA Log`);
-      setScanningOcr(false);
-      toast.success("OCR Scan complete!");
-      return;
-    }
-
+    
     try {
-      // Use Gemini to extract label text from the image
-      const base64 = await new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve((reader.result as string).split(",")[1]);
-        reader.readAsDataURL(file);
-      });
-
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      // Dynamic import to keep bundle small until needed
+      const Tesseract = await import("tesseract.js");
+      
+      const result = await Tesseract.recognize(
+        file,
+        'eng',
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{
-              parts: [
-                { text: "You are a fabric label OCR scanner. Extract any text visible in this image — including composition percentages, batch numbers, care instructions, compliance certifications, country of origin, or standard references. If no label text is visible, describe what is visible on the fabric. Format as clean text with line breaks." },
-                { inlineData: { mimeType: file.type || "image/jpeg", data: base64 } },
-              ],
-            }],
-            generationConfig: { temperature: 0.2, maxOutputTokens: 256 },
-          }),
+          logger: m => console.log(m)
         }
       );
-
-      if (!response.ok) throw new Error(`${response.status}`);
-      const data = await response.json();
-      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "No label text detected.";
-      setOcrText(`--- GEMINI OCR SCAN ---\n${text.trim()}`);
-      toast.success("OCR Scan complete! Extracted fabric specifications.");
+      
+      const text = result.data.text.trim();
+      if (!text) {
+        setOcrText(`--- OFFLINE OCR SCAN ---\nNo clear label text detected.`);
+      } else {
+        setOcrText(`--- OFFLINE OCR SCAN ---\n${text}`);
+      }
+      toast.success("Local OCR Scan complete!");
     } catch (err) {
-      console.warn("[OCR] Real API failed, falling back to mock:", err);
+      console.warn("[OCR] Tesseract failed, falling back to mock:", err);
       // Fallback to mock on error
       const materials = ["100% Organic Cotton", "60% Cotton / 40% Linen Blend", "100% Fine Merino Wool", "80% Silk / 20% Polyester"];
       const batches = ["BATCH: Loomworks-26A", "BATCH: Weaver-994", "BATCH: India-TC-08"];
       const standards = ["Compliance: ISO 7211-2 Standard", "Compliance: ASTM D3775 QC Pass"];
       const hash = file.name.length;
-      setOcrText(`--- SCAN LABEL OCR ---\nComposition: ${materials[hash % materials.length]}\n${batches[(hash >> 2) % batches.length]}\n${standards[(hash >> 3) % standards.length]}\nOrigin: Factory QA Log (Fallback)`);
-      toast.success("OCR Scan complete (Mock Fallback)");
+      setOcrText(`--- OFFLINE OCR SCAN ---\nComposition: ${materials[hash % materials.length]}\n${batches[(hash >> 2) % batches.length]}\n${standards[(hash >> 3) % standards.length]}\nOrigin: Factory QA Log (Fallback)`);
+      toast.error("Local OCR failed. Using fallback data.");
     } finally {
       setScanningOcr(false);
     }
