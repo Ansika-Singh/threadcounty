@@ -215,8 +215,8 @@ function AuthPanel() {
   return (
     <div className="space-y-8 max-w-sm w-full mx-auto flex flex-col items-center text-center">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground leading-tight">Welcome to ThreadCounty</h1>
-        <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+        <h1 className="text-3xl font-semibold tracking-tight text-slate-900 leading-tight">Welcome to ThreadCounty</h1>
+        <p className="mt-3 text-sm text-slate-600 leading-relaxed">
           The world's most advanced AI-powered optical thread counting and textile analysis platform.
         </p>
       </div>
@@ -242,7 +242,7 @@ function AuthPanel() {
         </Button>
       </div>
       
-      <p className="text-xs text-muted-foreground max-w-xs mx-auto pt-6 border-t border-border/50">
+      <p className="text-xs text-slate-500 max-w-xs mx-auto pt-6 border-t border-border/50">
         This is a guaranteed 1-click access portal that bypasses all email verification and manual login steps for hackathon demonstration purposes.
       </p>
     </div>
