@@ -236,6 +236,7 @@ function UploadPage() {
     setStatusMessage("Analysis complete!");
     await new Promise((r) => setTimeout(r, 400));
     toast.success("Analysis complete.");
+    qc.invalidateQueries({ queryKey: ["history"] });
     navigate({ to: "/analysis/$id", params: { id: report.id } });
   }
 

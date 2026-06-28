@@ -147,6 +147,25 @@ const INITIAL_SUBSCRIPTIONS = [
   }
 ];
 
+const INITIAL_NOTIFICATIONS = [
+  {
+    id: "notif-1",
+    user_id: "mock-user-id-999",
+    title: "Welcome to ThreadCounty",
+    body: "Start your first AI fabric analysis today.",
+    read: false,
+    created_at: new Date(Date.now() - 3600000 * 2).toISOString(),
+  },
+  {
+    id: "notif-2",
+    user_id: "mock-user-id-999",
+    title: "Subscription Upgraded",
+    body: "Your account is now on the Professional tier.",
+    read: true,
+    created_at: new Date(Date.now() - 3600000 * 24 * 5).toISOString(),
+  }
+];
+
 // Load local database helper
 const getMockTable = (key: string, initial: any[]) => {
   if (typeof window === "undefined") return initial;
@@ -406,12 +425,17 @@ export const mockSupabase = {
       case "contact_messages":
         mockData = getMockTable("contact_messages", []);
         break;
+      case "notifications":
+        mockData = getMockTable("notifications", INITIAL_NOTIFICATIONS);
+        break;
       default:
         mockData = [];
     }
 
     const builder = {
       data: mockData,
+      pendingUpdate: null as any,
+      pendingDelete: false,
       filters: [] as any[],
 
       select: function(columns?: string) {
@@ -479,34 +503,35 @@ export const mockSupabase = {
       },
 
       update: function(values: any) {
-        // Simple update on filtered items
-        this.data.forEach((item: any) => {
-          Object.assign(item, values, { updated_at: new Date().toISOString() });
-        });
-
-        // Save back full table
-        const fullTable = getMockTable(table, []);
-        const updatedTable = fullTable.map((item: any) => {
-          const match = this.data.find((d: any) => d.id === item.id);
-          return match ? match : item;
-        });
-        saveMockTable(table, updatedTable);
-
+        this.pendingUpdate = values;
         return this;
       },
 
       delete: function() {
-        // Save back remaining items
-        const fullTable = getMockTable(table, []);
-        const remainingTable = fullTable.filter((item: any) => {
-          return !this.data.some((d: any) => d.id === item.id);
-        });
-        saveMockTable(table, remainingTable);
+        this.pendingDelete = true;
         return this;
       },
 
       // Then returns the final promise directly if awaited
       then: function(onfulfilled?: (value: any) => any) {
+        if (this.pendingUpdate) {
+          this.data.forEach((item: any) => {
+            Object.assign(item, this.pendingUpdate, { updated_at: new Date().toISOString() });
+          });
+          const fullTable = getMockTable(table, []);
+          const updatedTable = fullTable.map((item: any) => {
+            const match = this.data.find((d: any) => d.id === item.id);
+            return match ? match : item;
+          });
+          saveMockTable(table, updatedTable);
+        }
+        if (this.pendingDelete) {
+          const fullTable = getMockTable(table, []);
+          const remainingTable = fullTable.filter((item: any) => {
+            return !this.data.some((d: any) => d.id === item.id);
+          });
+          saveMockTable(table, remainingTable);
+        }
         const promise = Promise.resolve({ data: this.data, error: null });
         return promise.then(onfulfilled);
       }
