@@ -533,7 +533,7 @@ function SignupForm() {
               <Input 
                 id="email2" 
                 type="email" 
-                placeholder="name@company.com"
+                placeholder="name@gmail.com"
                 required 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
