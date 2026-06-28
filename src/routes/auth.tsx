@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
+
 import { toast } from "sonner";
 
 type Mode = "login" | "signup" | "forgot";
@@ -188,15 +188,18 @@ function GoogleButton({ disabled }: { disabled?: boolean }) {
   const [loading, setLoading] = useState(false);
   async function go() {
     setLoading(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin + "/auth/callback",
+    const result = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      }
     });
     if (result.error) {
       toast.error("Google sign-in failed: " + result.error.message);
       setLoading(false);
       return;
     }
-    if (result.redirected) return;
+    if (result.data.url) return;
     window.location.href = "/dashboard";
   }
   return (
