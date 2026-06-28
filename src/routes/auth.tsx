@@ -244,8 +244,7 @@ function DemoLoginButton({ onLoadingState }: { onLoadingState: (loading: boolean
     setLoading(true);
     onLoadingState(true);
     
-    const demoEmail = "demo2@threadcounty.com";
-    const demoPassword = "ThreadCountyDemo123!";
+
 
     const { data, error } = await supabase.auth.signInAnonymously();
 
