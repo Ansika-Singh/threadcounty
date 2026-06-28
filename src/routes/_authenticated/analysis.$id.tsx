@@ -282,41 +282,41 @@ function AnalysisPage() {
         </form>
       ) : (
         /* View Mode Report Card */
-        <div id="print-area" className="rounded-md border border-border bg-foreground text-background overflow-hidden">
-          <div className="flex items-center justify-between border-b border-white/10 px-6 py-3 bg-neutral-900">
+        <div id="print-area" className="rounded-md border border-border bg-card text-card-foreground overflow-hidden">
+          <div className="flex items-center justify-between border-b border-border px-6 py-3 bg-muted/30">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-background/50">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 SCAN_ID · {data.id.slice(0, 8).toUpperCase()}
               </span>
-              <span className="rounded-sm bg-brand/20 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-widest text-brand">
+              <span className="rounded-sm bg-brand/10 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-widest text-brand">
                 {data.status}
               </span>
             </div>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-background/50">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               {new Date(data.created_at).toLocaleString()}
             </span>
           </div>
 
           <div className="grid lg:grid-cols-[1.5fr_1fr]">
-            <div className="p-6 lg:p-10 bg-neutral-950">
+            <div className="p-6 lg:p-10 bg-card">
               {imageUrl ? (
-                <img src={imageUrl} alt="Analyzed fabric" className="w-full rounded-sm border border-white/10 object-cover aspect-[4/3]" />
+                <img src={imageUrl} alt="Analyzed fabric" className="w-full rounded-sm border border-border object-cover aspect-[4/3]" />
               ) : (
-                <div className="aspect-[4/3] w-full rounded-sm border border-white/10 weave-pattern" />
+                <div className="aspect-[4/3] w-full rounded-sm border border-border weave-pattern" />
               )}
-              <div className="mt-4 flex justify-between font-mono text-[10px] uppercase tracking-widest text-background/40">
+              <div className="mt-4 flex justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 <span>{data.upload?.original_filename}</span>
                 <span>{data.upload?.file_size ? (Number(data.upload.file_size) / 1024).toFixed(1) + " KB" : ""}</span>
               </div>
             </div>
 
-            <aside className="border-l border-white/10 p-6 lg:p-8 space-y-6 bg-neutral-900">
+            <aside className="border-l border-border p-6 lg:p-8 space-y-6 bg-muted/20">
               <div>
-                <div className="font-mono text-[10px] uppercase tracking-widest text-background/40">Thread density</div>
-                <div className="mt-1 font-mono text-4xl tracking-tight">
-                  {data.thread_density ?? "—"} <span className="text-xs text-background/40">TPI</span>
+                <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Thread density</div>
+                <div className="mt-1 font-mono text-4xl tracking-tight text-foreground">
+                  {data.thread_density ?? "—"} <span className="text-xs text-muted-foreground">TPI</span>
                 </div>
-                <div className="mt-2 h-1 w-full overflow-hidden bg-white/10">
+                <div className="mt-2 h-1 w-full overflow-hidden bg-border rounded-full">
                   <div className="h-full bg-brand" style={{ width: `${confidence * 100}%` }} />
                 </div>
               </div>
@@ -331,18 +331,18 @@ function AnalysisPage() {
           </div>
 
           {/* AI Suggestions */}
-          <div className="border-t border-white/10 px-6 py-6 lg:px-10 bg-neutral-950">
-            <div className="font-mono text-[10px] uppercase tracking-widest text-background/40">AI Insights &amp; Suggestions</div>
-            <div className="mt-3 whitespace-pre-line text-[14px] leading-relaxed text-background/80">
+          <div className="border-t border-border px-6 py-6 lg:px-10 bg-card">
+            <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">AI Insights &amp; Suggestions</div>
+            <div className="mt-3 whitespace-pre-line text-[14px] leading-relaxed text-foreground/90">
               {data.ai_suggestions || "No additional insights."}
             </div>
           </div>
 
           {/* Label Scan Notes */}
           {data.notes && (
-            <div className="border-t border-white/10 px-6 py-6 lg:px-10 bg-neutral-900">
-              <div className="font-mono text-[10px] uppercase tracking-widest text-background/40">Label Specification Notes</div>
-              <div className="mt-3 whitespace-pre-wrap text-xs font-mono leading-relaxed text-background/60">
+            <div className="border-t border-border px-6 py-6 lg:px-10 bg-muted/20">
+              <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Label Specification Notes</div>
+              <div className="mt-3 whitespace-pre-wrap text-xs font-mono leading-relaxed text-muted-foreground">
                 {data.notes}
               </div>
             </div>
