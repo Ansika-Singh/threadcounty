@@ -428,6 +428,13 @@ export const mockSupabase = {
         return this;
       },
 
+      gte: function(field: string, value: any) {
+        this.data = this.data.filter((item: any) => {
+          return item[field] >= value;
+        });
+        return this;
+      },
+
       order: function(field: string, options?: { ascending?: boolean }) {
         const asc = options?.ascending !== false;
         this.data = [...this.data].sort((a: any, b: any) => {
