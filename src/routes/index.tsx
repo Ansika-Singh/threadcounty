@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Boxes, Cpu, FileBarChart, Layers, Scan, Sparkles, Workflow, Loader2, Check, Shield, Zap, Globe, Mail, MapPin } from "lucide-react";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 export const Route = createFileRoute("/")({
