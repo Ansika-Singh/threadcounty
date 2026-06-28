@@ -35,8 +35,7 @@ function Dashboard() {
       };
     },
   });
-
-  const name = data?.profile?.full_name ?? user?.email?.split("@")[0] ?? "there";
+  const name = data?.profile?.full_name ?? user?.email?.split("@")?.[0] ?? "there";
   const planLabel = data?.subscription?.plan ?? "free";
   const storageMb = data ? (data.totalBytes / 1024 / 1024).toFixed(1) : "0.0";
 
