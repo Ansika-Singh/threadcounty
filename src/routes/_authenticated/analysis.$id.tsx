@@ -300,7 +300,7 @@ function AnalysisPage() {
           <div className="grid lg:grid-cols-[1.5fr_1fr]">
             <div className="p-6 lg:p-10 bg-card">
               {imageUrl ? (
-                <img src={imageUrl} alt="Analyzed fabric" className="w-full rounded-sm border border-border object-cover aspect-[4/3]" />
+                <img src={imageUrl} alt="Analyzed fabric" className="w-full rounded-sm border border-border object-cover aspect-[4/3]" onError={() => setImageUrl(null)} />
               ) : (
                 <div className="aspect-[4/3] w-full rounded-sm border border-border weave-pattern" />
               )}

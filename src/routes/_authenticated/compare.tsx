@@ -149,7 +149,7 @@ function ComparePage() {
             <Card className="border-border bg-card overflow-hidden">
               <div className="aspect-[4/3] w-full bg-surface-2 relative overflow-hidden border-b border-border">
                 {imgUrlA ? (
-                  <img src={imgUrlA} alt="Fabric A" className="size-full object-cover object-center" />
+                  <img src={imgUrlA} alt="Fabric A" className="size-full object-cover object-center" onError={() => setImgUrlA(null)} />
                 ) : (
                   <div className="size-full flex items-center justify-center font-mono text-xs text-muted-foreground bg-surface-2">
                     Fabric A macro photo
@@ -196,7 +196,7 @@ function ComparePage() {
             <Card className="border-border bg-card overflow-hidden">
               <div className="aspect-[4/3] w-full bg-surface-2 relative overflow-hidden border-b border-border">
                 {imgUrlB ? (
-                  <img src={imgUrlB} alt="Fabric B" className="size-full object-cover object-center" />
+                  <img src={imgUrlB} alt="Fabric B" className="size-full object-cover object-center" onError={() => setImgUrlB(null)} />
                 ) : (
                   <div className="size-full flex items-center justify-center font-mono text-xs text-muted-foreground bg-surface-2">
                     Fabric B macro photo
